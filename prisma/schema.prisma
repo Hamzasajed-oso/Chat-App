@@ -12,6 +12,11 @@ enum UserRole {
   USER
 }
 
+enum ChatType {
+  SINGLE
+  GROUP
+}
+
 model Password {
   hash   String
   userId Int    @unique
@@ -19,12 +24,34 @@ model Password {
 }
 
 model User {
-  id                 Int             @id @default(autoincrement())
-  email              String          @unique
-  name               String
-  phone              String?
-  mobile             String?
-  password           Password?
-  approved           Boolean         @default(true)
-  role               UserRole        @default(USER)
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  name       String
+  phone      String?
+  password   Password?
+  approved   Boolean      @default(true)
+  role       UserRole     @default(USER)
+  Chat       Chat[]
+  ChatGroups ChatGroups[] @relation("UserGroups")
+  AdminOf    ChatGroups[] @relation("GroupAdmin")
+}
+
+model Chat {
+  id           Int         @id @default(autoincrement())
+  User         User        @relation(fields: [userId], references: [id])
+  userId       Int
+  type         ChatType
+  ChatGroups   ChatGroups? @relation(fields: [chatGroupsId], references: [id])
+  chatGroupsId Int?
+  createdAt    DateTime    @default(now())
+}
+
+model ChatGroups {
+  id        Int      @id @default(autoincrement())
+  name      String
+  users     User[]   @relation("UserGroups")
+  admin     User     @relation("GroupAdmin", fields: [adminId], references: [id])
+  adminId   Int
+  chat      Chat[]
+  createdAt DateTime @default(now())
 }

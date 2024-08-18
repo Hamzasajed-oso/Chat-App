@@ -100,7 +100,7 @@ export const UserRepository = {
       data: {
         name: data.name,
         phone: data.phone,
-        mobile: data.mobile,
+        // mobile: data.mobile,
       },
     })
   },
