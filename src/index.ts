@@ -3,38 +3,31 @@ import "module-alias/register"
 import "@/app/config"
 import { db, Paginated } from "@/core/database"
 import { Password as Pwd } from "@/core/helpers"
-
-
 import { Server } from "@/core/server"
 import { logger } from "./core/server/logger"
+import { WebSocketServer } from "ws"
 
 async function main(): Promise<void> {
   console.log("Hello World")
 
-  // const args = {
-  //   email: "Hamzasajed.oso@gmail.com",
-  //   name: "Hamza Sajed",
-  //   phone: "0311-4052328",
-  //   password: "Hamza__0301"
-  // }
-
-  // const user = await db.user.create({
-  //   data: {
-  //     email: args.email,
-  //     name: args.name,
-  //     phone: args.phone,
-  //     password: {
-  //       create: {
-  //         hash: await Pwd.hash(args.password),
-  //       },
-  //     },
-  //   },
-  // })
-
-  // console.log(user)
-
   const server = Server.new()
   await Server.start(server)
+
+  // const wss = new WebSocketServer({ server })
+
+  // // Handle WebSocket connections
+  // wss.on("connection", (ws) => {
+  //   console.log("New WebSocket connection")
+
+  //   ws.on("message", (message) => {
+  //     console.log(`Received message: ${message}`)
+  //     ws.send(`Echo: ${message}`)
+  //   })
+
+  //   ws.on("close", () => {
+  //     console.log("WebSocket connection closed")
+  //   })
+  // })
 }
 
 // main().catch(logger.error)
