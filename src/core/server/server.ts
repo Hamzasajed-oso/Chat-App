@@ -3,11 +3,14 @@ import { fastifyRequestContextPlugin } from "@fastify/request-context"
 import cors from "@fastify/cors"
 import helmet from "@fastify/helmet"
 import rateLimit from "@fastify/rate-limit"
+import socket from "@fastify/websocket"
+
 import {
   routesPlugin,
   rateLimitPluginOptions,
   requestContextPluginOptions,
   FastifyPlugin,
+  socketRoutesPlugin,
 } from "./plugins"
 import { serverConfig } from "@/app/config"
 
@@ -22,6 +25,8 @@ export const Server = {
       .register(helmet, { global: true })
       .register(rateLimit, rateLimitPluginOptions)
       .register(fastifyRequestContextPlugin, requestContextPluginOptions)
+      .register(socket)
+      .register(socketRoutesPlugin)
       .register(routesPlugin.plug())
 
     return app
